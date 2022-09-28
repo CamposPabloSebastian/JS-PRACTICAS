@@ -156,3 +156,22 @@ footer {
     list-style: none;
     padding: 0;
 }
+
+textarea {
+    resize: none;
+}
+
+.list-sesion {
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+    text-align: center;
+}
+
+.list-sesion li:first-child {
+    border-right: #6c757d 1px solid;
+}
+
+.list-sesion a {
+    color: #6c757d;
+}

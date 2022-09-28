@@ -28,10 +28,14 @@
                         <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./listMotos.html">Ver motos</a>
+                        <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Ver motos
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Publicar</a>
+                        <a type="button" class="nav-link" data-bs-target="#staticBackdropPublicar" id="botonPublicar">
+                            Publicar
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -48,10 +52,16 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Mi cuenta</a>
+                        <!-- <a class="nav-link" href="#">Mi cuenta</a> -->
+                        <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdropSesion"
+                            id="botonMiCuenta">
+                            Mi cuenta
+                            <span id="usuarioRegistrado" class="px-5"></span>
+                        </a>
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
     <div class="img-fondo">
@@ -182,7 +192,8 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-primary d-grid col-2 mx-auto mt-5 mb-2">
+        <button type="button" class="btn btn-primary d-grid col-2 mx-auto mt-5 mb-2" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop" id="publicarVehiculo">
             Ver todas las motos
         </button>
     </section>
@@ -252,7 +263,241 @@
         <hr />
         <p class="text-center m-0">© - Pablo Sebastian Campos 2022</p>
     </footer>
+    <!-- Modal Listado de motos -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Motos disponibles</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="p-2 container">
+                    <span class="text-center fs-5">Filtros</span>
+                    <form class="row" id="form-filtro">
+                        <div class="col-12 col-md-4">
+                            <label for="" class="mb-1">Marca</label>
+                            <select class="form-select" id="selectFiltroMarca">
+                                <option selected>Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <label for="" class="mb-1">Año</label>
+                            <section id="selectFiltroAnio" class="row">
+                                <div class="col-6">
+                                    <select class="form-select" id="anio-desde" aria-label="Default select example">
+                                        <!-- <option selected>Desde</option> -->
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" id="anio-hasta" aria-label="Default select example">
+                                        <!-- <option selected>Hasta</option> -->
+                                    </select>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-12">
+                            <section class="row">
+                                <label for="" class="form-label">Precio</label>
+                                <div class="col-12 col-md-6">
+                                    <p>Desde:<span for="inputPrecioDesde" id="labelPrecioDesde"> 0</span>€</p>
+                                    <input type="range" class="form-range" id="inputPrecioDesde" min="0" max="30000"
+                                        step="1000" value="0" />
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <p>Hasta:<span for="inputPrecioHasta" id="labelPrecioHasta"> 50000</span>€</p>
+                                    <input type="range" class="form-range" id="inputPrecioHasta" min="0" max="30000"
+                                        step="1000" value="50000" />
+                                </div>
+                            </section>
+                        </div>
+                    </form>
+                    <button class="btn btn-danger" id="borrarFiltro">Borrar filtros</button>
 
+                </div>
+                <div class="modal-body container w-75" id="listMoto">
+                    <div class="row d-flex justify-content-around" id="contenedor-cards">
+                        <!-- AQUI VAN LAS CARDS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal publicar motos -->
+    <div class="modal fade" id="staticBackdropPublicar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true" id="modalPublicar">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content w-50 mx-auto">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Publica tu anuncio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="subir-img" class="container" id="formPublicar">
+                        <label for="">Datos del vehiculo</label>
+                        <section id="form-vehiculo" class="row mx-2">
+                            <div class="col-12">
+                                <label for="inputSelectEstilo" class="form-label">Estilo</label>
+                                <select id="inputSelectEstilo" class="form-select" name="tipo">
+                                    <option selected>Seleccione...</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="inputSelectMarca" class="form-label">Marca</label>
+                                <select id="inputSelectMarca" class="form-select" name="marca">
+                                    <option selected>Seleccione...</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="inputModelo" class="form-label">Modelo</label>
+                                <input type="text" class="form-control" id="inputModelo" name="modelo">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="autoSizingInputGroup">Cilindrada</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="autoSizingInputGroup"
+                                        name="cilindrada">
+                                    <div class="input-group-text">CC</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="inputSelectAnio" class="form-label">Año</label>
+                                <select id="inputSelectAnio" class="form-select" name="anio">
+                                    <option selected>Seleccione...</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="inputKilometros" class="form-label">Kilometros</label>
+                                <input type="number" class="form-control" id="inputKilometros" name="kilometros">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="inputMarca" class="form-label">Carnet</label>
+                                <select id="inputMarca" class="form-select" name="carnet">
+                                    <option selected>Seleccione...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="inputPrecio" class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="inputPrecio" name="precio">
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <label class="form-label" for="inputModelo">Añade fotos del vehiculo</label>
+                                <input type="file" class="form-control" id="inputGroupFile01" name="imagen" disabled>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputModelo" class="form-label">Breve descripcion</label>
+                                <textarea class="form-control" aria-label="With textarea" rows="10" maxlength="300"
+                                    placeholder="maximo 300 caracteres" name="descripcion"></textarea>
+                            </div>
+                        </section>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
+                                id="btnContinuarPublicacion">Publicar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Inicio de sesion -->
+    <div class="modal fade" id="staticBackdropSesion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">¡Bienvenido!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="cerrarVentanaSesion"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formSesion">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Direccion de email</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" name="email">
+                            <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie
+                                más.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" name="password"
+                                autocomplete="off">
+                        </div>
+                        <span id="credencialesIncorrectas"></span>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Recordarme</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" id="botonIniciarSesion">Iniciar
+                            sesion</button>
+                    </form>
+                    <!-- Button trigger modal -->
+                    <ul class="me-auto mb-2 mb-lg-0 row list-sesion justify-content-around">
+                        <li class="nav-item col-6">
+                            Recueprar contraseña
+                            <!-- <a type="button" class="nav-link" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdropRecuperarPass">
+                                Recueprar contraseña
+                            </a> -->
+                        </li>
+                        <li class="nav-item col-6">
+                            Registrarse
+                            <!-- <a type="button" class="nav-link" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdropRegistro">
+                                Registrarse
+                            </a> -->
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Recuperar Contraseña-->
+    <!-- <div class="modal fade" id="staticBackdropRecuperarPass" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Modal Registrarse-->
+    <!-- <div class="modal fade" id="staticBackdropRegistro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
 
     <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
