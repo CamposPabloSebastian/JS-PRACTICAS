@@ -87,18 +87,22 @@ function modelarCard(vehiculo) {
     return `<div class="card mb-2">
                     <img src="${vehiculo.img}" alt="" class="img-fluid" />
                     <div class="card-header text-center px-0 w-100">
-                        <h5 class="card-title">${vehiculo.marca} - ${vehiculo.modelo}</h5>
+                        <h5 class="card-title m-0">${vehiculo.marca} - ${vehiculo.modelo}</h5>
                     </div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">${vehiculo.tipo}</li>
-                            <li class="list-group-item">${vehiculo.anio}</li>
-                            <li class="list-group-item">${vehiculo.kilometros}</li>
-                            <li class="list-group-item">${vehiculo.carnet}</li>
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush list-group-horizontal row">
+                            <li class="list-group-item col-6">${vehiculo.tipo}</li>
+                            <li class="list-group-item col-6 text-end">${vehiculo.anio}</li>
+                        </ul>
+                        <ul class="list-group list-group-flush list-group-horizontal row">
+                            <li class="list-group-item col-6">${vehiculo.kilometros} km</li>
+                            <li class="list-group-item col-6 text-end">${vehiculo.carnet}</li>
                         </ul>
                     </div>
                     <div class="card-footer text-end">${vehiculo.precio}</div>
-                    <div class="btn btn-success">comprar</div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdropDetalle">
+    Detalle
+</button>
                 </div>`;
 }
 
