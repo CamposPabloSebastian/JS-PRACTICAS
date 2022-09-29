@@ -175,3 +175,11 @@ textarea {
 .list-sesion a {
     color: #6c757d;
 }
+
+.ocultar {
+    display: none;
+}
+
+.mostrar {
+    display: block;
+}

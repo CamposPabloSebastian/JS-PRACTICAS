@@ -9,6 +9,12 @@ class Usuario {
         this.contrasenya = contrasenya;
     }
 
+    /**
+     * Metodo que verifica si los datos pasados por parametros son iguales al elemento con el que se lo compara
+     * @param {*} email valor a comprar
+     * @param {*} pass  valor a comparar
+     * @returns el objeto si los valores coinciden
+     */
     registrado(email, pass) {
         if (this.email == email && this.contrasenya == pass) {
             return this;
@@ -16,9 +22,12 @@ class Usuario {
     }
 }
 
+/**
+ * Array con usuarios registrados
+ */
 const usuariosRegistrados = [
-    new Usuario("admin", "admin", "admin@admin.com", "admin"),
-    new Usuario("Pablo", "campos", "pablo.c1791@mail.com", "1234"),
+    new Usuario("Administrador", "admin", "admin@admin.com", "admin"),
+    new Usuario("Pablo Sebastian", "Campos", "pablo.c1791@mail.com", "1234"),
 ];
 
 
@@ -58,7 +67,11 @@ let tienda = [
     new Vehiculo("BMW", "R 1250 GS", "TraiL", 1250, 2014, 5600, "A", "comentarios del vendedor", 5500, "./img/motos/BMW-R-1250-GS.jpg"),
 ];
 
-
+/**
+ * Funcion que valida si la imagen cargada es valida
+ * @param {*} imagen a validar
+ * @returns imagen validada
+ */
 function validarImagen(imagen) {
     if (imagen.length == 0) {
         return "./img/card.webp"
@@ -200,7 +213,6 @@ const objetoSeleccionesFiltro = {
  * si clave marca No contiene nada, esta vacia (false):
  * retorna el objeto pasada por parametro nuevamanete.
  */
-
 function filtrarMarca(producto) {
     const { marca } = objetoSeleccionesFiltro; // destructurin de objeto
     return marca ? marca == producto.marca : producto;
@@ -319,83 +331,58 @@ formFiltro.addEventListener(`click`, () => {
 
 /********************************** ACCIONES INICIAR SESION *******************************/
 let sesionIniciada = false;
-
-// /**
-//  * Funcion que valida si la sesion esta iniciada.
-//  * @param {*} formularioSesion formiralio para obtener las credenciales y validar sesion
-//  * @returns true si se pudo iniciar sesion, de lo contrario false.
-//  */
-// function iniciarSesion(form) {
-//     console.log("3 estoy en la funcion")
-//     // form.addEventListener(`submit`, e => {
-//     // e.preventDefault();
-//     let formulario = document.forms[`formSesion`];
-//     let user, pass;
-//     user = formulario.email.value;
-//     pass = formulario.password.value;
-//     console.log(user)
-//     console.log(pass)
-
-//     let existe = usuariosRegistrados.find(usuario => usuario.registrado(user, pass));
-//     if (existe) {
-//         console.log("encontrado")
-//         let span = document.getElementById(`credencialesIncorrectas`);
-//         span.textContent = ``
-//         let spanNav = document.getElementById(`usuarioRegistrado`);
-//         console.log(spanNav)
-//         spanNav.textContent = `${existe.nombre} ${existe.apellido}`
-//         console.log(spanNav.textContent);
-//         sesionIniciada = true;
-//         form.reset();
-//     } else {
-//         console.log("no existe usuario")
-//         let span = document.getElementById(`credencialesIncorrectas`);
-//         span.textContent = `Usuario o contraseña incorrecto.`
-//         span.style.color = "red";
-//         sesionIniciada = false;
-//     }
-//     // })
-//     console.log("la sesion en la funcion antes de salir es: " + sesionIniciada)
-
-// }
-
-// const formularioSesion = document.getElementById(`formSesion`);
-// const botonIniciarSesion = document.getElementById(`botonIniciarSesion`);
-
-// console.log("1 INICIO DE APP. la sesion es " + sesionIniciada);
-// botonIniciarSesion.addEventListener('click', e => {
-//     e.preventDefault();
-//     console.log("2 diste click a iniccar sesion");
-//     iniciarSesion(formularioSesion);
-//     console.log("la funcion me devolvio un: " + sesionIniciada)
-//     if (!sesionIniciada) {
-//         console.log("reintento de sesion ahora es " + sesionIniciada);
-//     } else {
-//         ;
-//     }
-// })
-
-// formularioSesion.addEventListener(`submit`, e => {
-//     e.preventDefault();
-//     let formulario = document.forms[`formSesion`];
-//     let user, pass;
-//     user = formulario.email.value;
-//     pass = formulario.password.value;
-
-//     let existe = usuariosRegistrados.find(usuario => usuario.registrado(user, pass));
-//     if (existe) {
-//         let span = document.getElementById(`credencialesIncorrectas`);
-//         span.textContent = ``
-//         sesionIniciada = true;
-//     } else {
-//         let span = document.getElementById(`credencialesIncorrectas`);
-//         span.textContent = `Usuario o contraseña incorrecto.`
-//         span.style.color = "red";
-//     }
-// })
+const btnEntrar = document.getElementById(`botonEntrar`);
+const btnRegistrarse = document.getElementById(`botonRegistrarse`);
+const btnPublicar = document.getElementById(`botonPublicar`);
+const btnCerrarSesion = document.getElementById(`cerrarSesion`);
 const formularioSesion = document.getElementById(`formSesion`);
+const cuenta = document.getElementById(`botonMiCuenta`);
 
-function iniciarSesion() {
+console.log(btnCerrarSesion.parentElement);
+
+
+/**
+ * Funcion que oculta o mustra botones del nav dependiendo del estado de la sesion, iniciada o no iniciada
+ */
+function gestionarBotonesCuenta() {
+    if (sesionIniciada) {
+        btnEntrar.parentElement.classList.remove("mostrar");
+        btnEntrar.parentElement.classList.add("ocultar");
+
+        btnRegistrarse.classList.remove("mostrar");
+        btnRegistrarse.classList.add("ocultar");
+
+        btnPublicar.parentElement.classList.remove("ocultar");
+        btnPublicar.parentElement.classList.add("mostrar");
+
+        btnCerrarSesion.parentElement.classList.remove("ocultar");
+        btnCerrarSesion.parentElement.classList.add("mostrar");
+
+    } else {
+        btnEntrar.parentElement.classList.remove("ocultar");
+        btnEntrar.parentElement.classList.add("mostrar");
+
+        btnRegistrarse.parentElement.classList.remove("ocultar");
+        btnRegistrarse.parentElement.classList.add("mostrar");
+
+        btnPublicar.parentElement.classList.remove("mostrar");
+        btnPublicar.parentElement.classList.add("ocultar");
+
+        btnCerrarSesion.parentElement.classList.remove("mostrar");
+        btnCerrarSesion.parentElement.classList.add("ocultar");
+    }
+}
+
+btnCerrarSesion.addEventListener(`click`, (e) => {
+    e.preventDefault()
+    console.log("cerrando sesion")
+    sesionIniciada = false;
+    cuenta.textContent = `Mi cuenta`;
+    gestionarBotonesCuenta();
+});
+
+
+document.getElementById(`botonEntrar`).addEventListener('click', e => {
     formularioSesion.addEventListener("submit", e => {
         e.preventDefault();
         let formulario = document.forms[`formSesion`];
@@ -406,86 +393,57 @@ function iniciarSesion() {
         console.log(pass);
 
         let existe = usuariosRegistrados.find(usuario => usuario.registrado(user, pass));
+
+        let spanError = document.getElementById(`credencialesIncorrectas`);
         if (existe) {
-            console.log("encontrado")
-            let span = document.getElementById(`credencialesIncorrectas`);
-            span.textContent = ``
-            let spanNav = document.getElementById(`usuarioRegistrado`);
-            console.log(spanNav)
-            spanNav.textContent = `${existe.nombre} ${existe.apellido}`
-            console.log(spanNav.textContent);
+            console.log("usuario encontrado, inicia sesion")
+            spanError.textContent = ``;
+            cuenta.textContent = `${existe.nombre} ${existe.apellido}`
             sesionIniciada = true;
             formularioSesion.reset();
-            document.getElementById("cerrarVentanaSesion").click();
+            gestionarBotonesCuenta();
+            document.getElementById(`cerrarVentanaSesion`).click();
         } else {
-            console.log("no existe usuario")
-            let span = document.getElementById(`credencialesIncorrectas`);
-            span.textContent = `Usuario o contraseña incorrecto.`
-            span.style.color = "red";
+            console.log("no existe usuario no inicio sesion")
+            spanError.textContent = `Usuario o contraseña incorrecto.`
+            spanError.style.color = "red";
             sesionIniciada = false;
         }
-    })
-}
-
-document.getElementById(`botonMiCuenta`).addEventListener('click', e => {
-
+    });
 });
 
-// if (!sesionIniciada) {
-//     iniciarSesion();
-// }
 
 /********************************** ACCIONES PARA PUBLICAR *******************************/
 
-// const selectMarcaPublicar = document.getElementById("inputSelectMarca");
-// const selectTipoPublicar = document.getElementById("inputSelectEstilo");
-// const selectAnioPublicar = document.getElementById("inputSelectAnio");
+const selectMarcaPublicar = document.getElementById("inputSelectMarca");
+const selectTipoPublicar = document.getElementById("inputSelectEstilo");
+const selectAnioPublicar = document.getElementById("inputSelectAnio");
 
-// cargaSelect(listaMarcas, selectMarcaPublicar);
-// cargaSelect(listaTipoMoto, selectTipoPublicar);
-// cargaSelect(listAnios, selectAnioPublicar);
-
-
-// const botonPublicar = document.getElementById("botonPublicar");
-
-// botonPublicar.addEventListener('click', e => {
-//     e.preventDefault();
-//     console.log("Sesion no iniciada");
-//     if (sesionIniciada) {
-//         console.log("sesion iniciada");
-//         botonPublicar.setAttribute("data-bs-toggle", "modal");
-//     } else {
-//         document.getElementById(`botonMiCuenta`).click();
-//         if (sesionIniciada) {
-//             botonPublicar.setAttribute("data-bs-toggle", "modal");
-//             botonPublicar.click();
-//         }
-//     }
-// })
-
-// const formularioPublicar = document.getElementById(`formPublicar`);
+cargaSelect(listaMarcas, selectMarcaPublicar);
+cargaSelect(listaTipoMoto, selectTipoPublicar);
+cargaSelect(listAnios, selectAnioPublicar);
 
 
-// const botonContinuarPublicar = document.getElementById(`btnContinuarPublicacion`);
+const formularioPublicar = document.getElementById(`formPublicar`);
 
-// formularioPublicar.addEventListener(`submit`, e => {
-//     e.preventDefault();
-//     let formulario = document.forms[`formPublicar`];
-//     let nuevoVehiculo = new Vehiculo(
-//         formulario.marca.value,
-//         formulario.modelo.value,
-//         formulario.tipo.value,
-//         formulario.cilindrada.value,
-//         formulario.anio.value,
-//         formulario.kilometros.value,
-//         formulario.carnet.value,
-//         formulario.descripcion.value,
-//         formulario.precio.value,
-//         validarImagen(formulario.imagen.value),
-//     );
-//     tienda.unshift(nuevoVehiculo);
-//     renderizarCardAlInicio(nuevoVehiculo);
-//     formularioPublicar.reset();
-//     document.getElementById("publicarVehiculo").click();
-// });
+formularioPublicar.addEventListener(`submit`, e => {
+    e.preventDefault();
+    let formulario = document.forms[`formPublicar`];
+    let nuevoVehiculo = new Vehiculo(
+        formulario.marca.value,
+        formulario.modelo.value,
+        formulario.tipo.value,
+        formulario.cilindrada.value,
+        formulario.anio.value,
+        formulario.kilometros.value,
+        formulario.carnet.value,
+        formulario.descripcion.value,
+        formulario.precio.value,
+        validarImagen(formulario.imagen.value),
+    );
+    tienda.unshift(nuevoVehiculo);
+    renderizarCardAlInicio(nuevoVehiculo);
+    formularioPublicar.reset();
+    document.getElementById("publicarVehiculo").click();
+});
 

@@ -32,36 +32,36 @@
                             Ver motos
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a type="button" class="nav-link" data-bs-target="#staticBackdropPublicar" id="botonPublicar">
-                            Publicar
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="botonMiCuenta" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Buscar
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Acción</a></li>
-                            <li><a class="dropdown-item" href="#">Otra acción</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#">Algo más aquí</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <!-- <a class="nav-link" href="#">Mi cuenta</a> -->
-                        <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdropSesion"
-                            id="botonMiCuenta">
                             Mi cuenta
-                            <span id="usuarioRegistrado" class="px-5"></span>
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="sesion">
+                            <li>
+                                <a type="button" class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdropSesion" id="botonEntrar">
+                                    Entrar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" id="botonRegistrarse"><del>Registarse</del></a>
+                            </li>
+                            <li class="ocultar">
+                                <a type="button" class="dropdown-item" data-bs-target="#staticBackdropPublicar"
+                                    data-bs-toggle="modal" id="botonPublicar">
+                                    Publicar
+                                </a>
+                            </li>
+                            <li class="ocultar">
+                                <a type="button" class="dropdown-item" id="cerrarSesion">
+                                    Cerrar sesion
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
-
         </div>
     </nav>
     <div class="img-fondo">
@@ -269,7 +269,9 @@
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Motos disponibles</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        Motos disponibles
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="p-2 container">
@@ -300,20 +302,27 @@
                             <section class="row">
                                 <label for="" class="form-label">Precio</label>
                                 <div class="col-12 col-md-6">
-                                    <p>Desde:<span for="inputPrecioDesde" id="labelPrecioDesde"> 0</span>€</p>
+                                    <p>
+                                        Desde:<span for="inputPrecioDesde" id="labelPrecioDesde">
+                                            0</span>€
+                                    </p>
                                     <input type="range" class="form-range" id="inputPrecioDesde" min="0" max="30000"
                                         step="1000" value="0" />
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <p>Hasta:<span for="inputPrecioHasta" id="labelPrecioHasta"> 50000</span>€</p>
+                                    <p>
+                                        Hasta:<span for="inputPrecioHasta" id="labelPrecioHasta">
+                                            50000</span>€
+                                    </p>
                                     <input type="range" class="form-range" id="inputPrecioHasta" min="0" max="30000"
                                         step="1000" value="50000" />
                                 </div>
                             </section>
                         </div>
                     </form>
-                    <button class="btn btn-danger" id="borrarFiltro">Borrar filtros</button>
-
+                    <button class="btn btn-danger" id="borrarFiltro">
+                        Borrar filtros
+                    </button>
                 </div>
                 <div class="modal-body container w-75" id="listMoto">
                     <div class="row d-flex justify-content-around" id="contenedor-cards">
@@ -321,7 +330,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
                     <!-- <button type="button" class="btn btn-primary">Understood</button> -->
                 </div>
             </div>
@@ -333,7 +344,9 @@
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content w-50 mx-auto">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Publica tu anuncio</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        Publica tu anuncio
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -354,13 +367,13 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="inputModelo" class="form-label">Modelo</label>
-                                <input type="text" class="form-control" id="inputModelo" name="modelo">
+                                <input type="text" class="form-control" id="inputModelo" name="modelo" />
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="autoSizingInputGroup">Cilindrada</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="autoSizingInputGroup"
-                                        name="cilindrada">
+                                        name="cilindrada" />
                                     <div class="input-group-text">CC</div>
                                 </div>
                             </div>
@@ -372,7 +385,7 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="inputKilometros" class="form-label">Kilometros</label>
-                                <input type="number" class="form-control" id="inputKilometros" name="kilometros">
+                                <input type="number" class="form-control" id="inputKilometros" name="kilometros" />
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="inputMarca" class="form-label">Carnet</label>
@@ -383,11 +396,11 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="inputPrecio" class="form-label">Precio</label>
-                                <input type="number" class="form-control" id="inputPrecio" name="precio">
+                                <input type="number" class="form-control" id="inputPrecio" name="precio" />
                             </div>
                             <div class="col-12 col-md-8">
                                 <label class="form-label" for="inputModelo">Añade fotos del vehiculo</label>
-                                <input type="file" class="form-control" id="inputGroupFile01" name="imagen" disabled>
+                                <input type="file" class="form-control" id="inputGroupFile01" name="imagen" disabled />
                             </div>
                             <div class="col-12">
                                 <label for="inputModelo" class="form-label">Breve descripcion</label>
@@ -396,13 +409,15 @@
                             </div>
                         </section>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
-                                id="btnContinuarPublicacion">Publicar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+                                Publicar
+                            </button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -421,22 +436,24 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Direccion de email</label>
                             <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" name="email">
-                            <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie
-                                más.</div>
+                                aria-describedby="emailHelp" name="email" />
+                            <div id="emailHelp" class="form-text">
+                                Nunca compartiremos su correo electrónico con nadie más.
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="exampleInputPassword1" name="password"
-                                autocomplete="off">
+                                autocomplete="off" />
                         </div>
                         <span id="credencialesIncorrectas"></span>
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
                             <label class="form-check-label" for="exampleCheck1">Recordarme</label>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100" id="botonIniciarSesion">Iniciar
-                            sesion</button>
+                        <button type="submit" class="btn btn-primary w-100" id="botonIniciarSesion">
+                            Iniciar sesion
+                        </button>
                     </form>
                     <!-- Button trigger modal -->
                     <ul class="me-auto mb-2 mb-lg-0 row list-sesion justify-content-around">
@@ -456,7 +473,6 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
@@ -500,8 +516,8 @@
     </div> -->
 
     <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-        </script>
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 
     <script>
         //EJ: para el li de inicio que cierre al hacer click
