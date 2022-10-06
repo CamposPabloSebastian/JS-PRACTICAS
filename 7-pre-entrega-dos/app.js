@@ -34,7 +34,7 @@ const usuariosRegistrados = [
 let ID_VEHICULO = 1;
 
 class Vehiculo {
-    constructor(marca, modelo, tipo, cilindrada, anio, kilometros, carnet, comentario, precio, img) {
+    constructor(marca, modelo, tipo, cilindrada, anio, kilometros, carnet, comentario, precio, img = "./img/card.webp") {
         this.id = ID_VEHICULO++;
         this.marca = marca;
         this.modelo = modelo;
@@ -48,6 +48,7 @@ class Vehiculo {
         this.img = img;
     };
 }
+
 
 /**
  * array de elementos tipo vehiculo
@@ -88,7 +89,7 @@ let ultimasPublicaciones = document.getElementById("ultimasPublicaciones");
  * @param {*} vehiculo objeto que contiene los datos para completar datos de la card
  * @returns una modelo de card en sting
  */
- function modelarCardUltimas(vehiculo) {
+function modelarCardUltimas(vehiculo) {
     return `<div class="">
     <div class="row g-0">
         <div class="col-md-4">
@@ -116,7 +117,7 @@ let ultimasPublicaciones = document.getElementById("ultimasPublicaciones");
 */
 function renderizarCardUltimas(vehiculo) {
     let card = document.createElement(`div`);
-    card.classList.add(`card`,`col-12`,`col-lg-5`, `mb-3`,`card`);
+    card.classList.add(`card`, `col-12`, `col-lg-5`, `mb-3`, `card`);
     // card.classList.add(`row`,`g-0`);
     card.innerHTML = modelarCardUltimas(vehiculo);
     ultimasPublicaciones.appendChild(card);
@@ -125,9 +126,9 @@ function renderizarCardUltimas(vehiculo) {
 /**
  * For que recorre el array tienda para cargar todos lo elementos del al iniciar app
  */
- function cargarHtmlUltimas(array) {
+function cargarHtmlUltimas(array) {
     ultimasPublicaciones.innerHTML = "";
-    array.slice(0,4).forEach(element => {
+    array.slice(0, 4).forEach(element => {
         renderizarCardUltimas(element);
     });
 }
@@ -165,9 +166,9 @@ function modelarCard(vehiculo) {
 /**
  * 
  */
-function crearModalDetalle (encontrado){
+function crearModalDetalle(encontrado) {
     const div = document.createElement(`div`);
-    div.innerHTML =`<div class="modal fade" 
+    div.innerHTML = `<div class="modal fade" 
     id="staticBackdropDetalle${encontrado.id}" 
     data-bs-backdrop="static" 
     data-bs-keyboard="false" 
@@ -243,7 +244,7 @@ function crearModalDetalle (encontrado){
         </div>
     </div>
 </div>`
-document.getElementById(`modales`).append(div);
+    document.getElementById(`modales`).append(div);
 }
 
 let contenedorCards = document.getElementById("contenedor-cards");
@@ -470,7 +471,8 @@ function filtrar() {
 }
 
 const formFiltro = document.getElementById(`borrarFiltro`);
-formFiltro.addEventListener(`click`, () => {
+formFiltro.addEventListener(`click`, (e) => {
+    e.preventDefault();
     document.getElementById(`form-filtro`).reset();
     cargarHtml(tienda);
 });
@@ -529,56 +531,59 @@ btnCerrarSesion.addEventListener(`click`, (e) => {
     gestionarBotonesCuenta();
 });
 
-function cargaDatosStorageSesion(key, form){
-    const usuario = localStorage.getItem(key) || false;
-    if(usuario){
-        console.log("if "+usuario);
+function cargaDatosStorageSesion(keyUser, keyPss, form) {
+    const usuario = localStorage.getItem(keyUser) || false;
+    const pass = sessionStorage.getItem(keyPss) || false;
+
+    if (usuario) {
+        console.log("if " + usuario);
         form.email.value = usuario;
-        form.recordar.setAttribute(`checked`,``);
-    }else{
-        console.log("else "+usuario);
+        form.password.value = pass;
+        form.recordar.setAttribute(`checked`, ``);
+    } else {
         form.recordar.removeAttribute(`checked`);
     }
 }
 
 cuenta.addEventListener('click', e => {
     e.preventDefault();
-    cargaDatosStorageSesion("usuario", document.forms[`formSesion`]);
+    cargaDatosStorageSesion("usuario", "pass", document.forms[`formSesion`]);
 })
 
-document.getElementById(`botonEntrar`).addEventListener('click', e => {
+
+formularioSesion.addEventListener("submit", e => {
     e.preventDefault();
-    formularioSesion.addEventListener("submit", e => {
-        e.preventDefault();
-        
-        let formulario = document.forms[`formSesion`];
-        let user, pass;
-        user = formulario.email.value;
-        pass = formulario.password.value;
+    let formulario = document.forms[`formSesion`];
+    let user, pass;
+    user = formulario.email.value;
+    pass = formulario.password.value;
 
-        let existe = usuariosRegistrados.find(usuario => usuario.registrado(user, pass));
+    let existe = usuariosRegistrados.find(usuario => usuario.registrado(user, pass));
 
-        let spanError = document.getElementById(`credencialesIncorrectas`);
-        if (existe) {
-            if(formulario.recordar.checked){
-                localStorage.setItem("usuario", user);
-                // sessionStorage.setItem("pass", pass);
-            }else{
-                localStorage.removeItem("usuario");
-                // sessionStorage.removeItem("pass");
-            }
-            spanError.textContent = ``;
-            cuenta.textContent = `${existe.nombre} ${existe.apellido}`
-            sesionIniciada = true;
-            formularioSesion.reset();
-            gestionarBotonesCuenta();
-            document.getElementById(`cerrarVentanaSesion`).click();
+    let spanError = document.getElementById(`credencialesIncorrectas`);
+    if (existe != undefined) {
+        console.log("usuario en if es ")
+        console.log(existe)
+        if (formulario.recordar.checked) {
+            localStorage.setItem("usuario", user);
+            sessionStorage.setItem("pass", pass);
         } else {
-            spanError.textContent = `Usuario o contraseña incorrecto.`
-            spanError.style.color = "red";
-            sesionIniciada = false;
+            localStorage.removeItem("usuario");
+            sessionStorage.removeItem("pass");
         }
-    });
+        spanError.textContent = ``;
+        cuenta.textContent = `${existe.nombre} ${existe.apellido}`
+        sesionIniciada = true;
+        formularioSesion.reset();
+        gestionarBotonesCuenta();
+        document.getElementById(`cerrarVentanaSesion`).click();
+    } else {
+        console.log("usuario en else if es ")
+        console.log(existe)
+        spanError.textContent = `Usuario o contraseña incorrecto.`
+        spanError.style.color = "red";
+        sesionIniciada = false;
+    }
 });
 
 
@@ -594,11 +599,11 @@ cargaSelect(listAnios, selectAnioPublicar);
 
 
 const formularioPublicar = document.getElementById(`formPublicar`);
-
-formularioPublicar.addEventListener(`submit`, e => {
+let nuevoVehiculo;
+let formulario = document.forms[`formPublicar`];
+formularioPublicar.addEventListener(`change`, e => {
     e.preventDefault();
-    let formulario = document.forms[`formPublicar`];
-    let nuevoVehiculo = new Vehiculo(
+    nuevoVehiculo = new Vehiculo(
         formulario.marca.value,
         formulario.modelo.value,
         formulario.tipo.value,
@@ -608,24 +613,61 @@ formularioPublicar.addEventListener(`submit`, e => {
         formulario.carnet.value,
         formulario.descripcion.value,
         formulario.precio.value,
-        validarImagen(formulario.imagen.value),
+    );
+    const nuevoProdJSON = JSON.stringify(nuevoVehiculo);
+    localStorage.setItem("publicacionPendiente", nuevoProdJSON);
+})
+
+btnPublicar.addEventListener('click', e => {
+    e.preventDefault();
+    let productoStorage = JSON.parse(localStorage.getItem("publicacionPendiente"));
+    if (productoStorage) {
+        console.log(productoStorage.img)
+        if (confirm("Continuar publicacion?")) {
+            formulario.marca.value = productoStorage.marca;
+            formulario.modelo.value = productoStorage.modelo;
+            formulario.tipo.value = productoStorage.tipo;
+            formulario.cilindrada.value = productoStorage.cilindrada;
+            formulario.anio.value = productoStorage.anio;
+            formulario.kilometros.value = productoStorage.kilometros;
+            formulario.carnet.value = productoStorage.carnet;
+            formulario.descripcion.value = productoStorage.comentario;
+            formulario.precio.value = productoStorage.precio;
+        } else {
+            localStorage.removeItem("publicacionPendiente");
+        }
+    } else {
+        alert("no tiene nada pendoente")
+    }
+})
+
+formularioPublicar.addEventListener(`submit`, e => {
+    e.preventDefault();
+    nuevoVehiculo = new Vehiculo(
+        formulario.marca.value,
+        formulario.modelo.value,
+        formulario.tipo.value,
+        formulario.cilindrada.value,
+        formulario.anio.value,
+        formulario.kilometros.value,
+        formulario.carnet.value,
+        formulario.descripcion.value,
+        formulario.precio.value,
     );
     tienda.unshift(nuevoVehiculo);
     renderizarCardAlInicio(nuevoVehiculo);
     cargarHtmlUltimas(tienda);
     formularioPublicar.reset();
     document.getElementById("publicarVehiculo").click();
+    localStorage.removeItem("publicacionPendiente");
 });
 
 /********************************** ACCIONES VER DETALLE *******************************/
 const botones = document.getElementsByClassName('closeDetalle');
 
-for (let i = 0; i < botones.length; i++){
-    botones[i].addEventListener("click", e=>{
+for (let i = 0; i < botones.length; i++) {
+    botones[i].addEventListener("click", e => {
         e.preventDefault();
         document.getElementById(`publicarVehiculo`).click();
     })
-}
-
-
-
+};
