@@ -27,7 +27,7 @@ class Usuario {
  */
 const usuariosRegistrados = [
     new Usuario("Administrador", "admin", "admin@admin.com", "admin"),
-    new Usuario("Pablo Sebastian", "Campos", "pablo.c1791@mail.com", "1234"),
+    new Usuario("Pablo Sebastian", "Campos", "pablo.c1791@gmail.com", "1234"),
 ];
 
 
@@ -67,6 +67,8 @@ let tienda = [
     new Vehiculo("BMW", "R 1250 GS", "TraiL", 1250, 2014, 5600, "A", "comentarios del vendedor", 5500, "./img/motos/BMW-R-1250-GS.jpg"),
 ];
 
+tienda.reverse();
+
 /**
  * Funcion que valida si la imagen cargada es valida
  * @param {*} imagen a validar
@@ -77,6 +79,61 @@ function validarImagen(imagen) {
         return "./img/card.webp"
     }
 }
+
+/********************************************ULTIMAS PUBLICACIONES */
+let ultimasPublicaciones = document.getElementById("ultimasPublicaciones");
+
+/**
+ * Funcion que crea un modelo de card ypara el vehiculo y carga los datos del objetos pasado
+ * @param {*} vehiculo objeto que contiene los datos para completar datos de la card
+ * @returns una modelo de card en sting
+ */
+ function modelarCardUltimas(vehiculo) {
+    return `<div class="">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="${vehiculo.img}" class="img-fluid rounded-start" alt="..." />
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+            <h5 class="card-title m-0">${vehiculo.marca} - ${vehiculo.modelo}</h5>
+                <p class="card-text">
+                    ${vehiculo.comentario};
+                </p>
+                <p class="card-text">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>`;
+}
+
+
+/**
+* Funcion que inserta el elemento card depues del ultimo hijo de su contenedor
+* @param {*} vehiculo elemento a insertar
+*/
+function renderizarCardUltimas(vehiculo) {
+    let card = document.createElement(`div`);
+    card.classList.add(`card`,`col-12`,`col-lg-5`, `mb-3`,`card`);
+    // card.classList.add(`row`,`g-0`);
+    card.innerHTML = modelarCardUltimas(vehiculo);
+    ultimasPublicaciones.appendChild(card);
+}
+
+/**
+ * For que recorre el array tienda para cargar todos lo elementos del al iniciar app
+ */
+ function cargarHtmlUltimas(array) {
+    ultimasPublicaciones.innerHTML = "";
+    array.slice(0,4).forEach(element => {
+        renderizarCardUltimas(element);
+    });
+}
+
+cargarHtmlUltimas(tienda);
+/*********************************************************************************** */
 
 /**
  * Funcion que crea un modelo de card ypara el vehiculo y carga los datos del objetos pasado
@@ -100,14 +157,96 @@ function modelarCard(vehiculo) {
                         </ul>
                     </div>
                     <div class="card-footer text-end">${vehiculo.precio}</div>
-                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropDetalle">
-    Detalle
-</button>
-                </div>`;
+                    <button type="button" id=detalle-${vehiculo.id} class="btn btn-dark btn-detalle" data-bs-toggle="modal" data-bs-target="#staticBackdropDetalle${vehiculo.id}">Detalle
+                    </button>
+            </div>`;
+}
+
+/**
+ * 
+ */
+function crearModalDetalle (encontrado){
+    const div = document.createElement(`div`);
+    div.innerHTML =`<div class="modal fade" 
+    id="staticBackdropDetalle${encontrado.id}" 
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel" 
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close closeDetalle" data-bs-dismiss="modal" aria-label="Close" id="cerrarDetalle${encontrado.id}"></button>
+            </div>
+            <div class="modal-body" id="modalDetalle-body">
+            <main class="container">
+            <header class="row d-flex">
+                <div class="col-7">
+                    <h1>${encontrado.marca}</h1>
+                    <h3>${encontrado.modelo}</h3>
+                </div>
+                <div class="col-5 text-end">
+                    <span>€${encontrado.precio}</span>
+                    <button class="btn btn-success">Comprar</button>
+                </div>
+            </header>
+            <div class="">
+                <img class="d-block w-100 mb-4" alt="..." src=${encontrado.img}>
+            </div>
+            <div class="row d-flex">
+                <div class="col-12 col-md-7">
+                    <h3>Comentarios del anunciante</h3>
+                    <p>${encontrado.comentario}</p>
+                </div>
+                <div class="col-12 col-md-5">
+                    <ul class="list-detalleProd">
+                        <li id="estiloDetalle">${encontrado.tipo}</li>
+                        <span>Estilo</span>
+                        <li class="">${encontrado.anio}</li>
+                        <span>Año</span>
+                        <li class="">${encontrado.cilindrada}</li>
+                        <span>Cilindrada</span>
+                        <li class="">${encontrado.carnet}</li>
+                        <span>Carnet</span>
+                        <li class="">${encontrado.kilometros}</li>
+                        <span>Kilometos recorridos</span>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row d-flex mb-3">
+                <h3>Calcla tu finaciacion</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, expedita?</p>
+                <form action="" class="col-12 col-md-6">
+                    <div class="input-group mb-2">
+                        <input type="number" class="form-control" value="1000" min="1000" step="100"
+                            aria-label="Dollar amount (with dot and two decimal places)">
+                        <span class="input-group-text">.00</span>
+                        <span class="input-group-text">€</span>
+                    </div>
+                    <select class="form-select mb-2" aria-label="Default select example">
+                        <option value="1">12</option>
+                        <option value="2">24</option>
+                        <option value="3">36</option>
+                        <option value="4">48</option>
+                        <option selected value="5">60</option>
+                    </select>
+                </form>
+                <div class="col-12 col-md-6">
+                    Comenza a pagar tu moto en 60 cuotas de 1000€
+                </div>
+            </div>
+        </main>
+            </div>
+        </div>
+    </div>
+</div>`
+document.getElementById(`modales`).append(div);
 }
 
 let contenedorCards = document.getElementById("contenedor-cards");
-let ultimasPublicaciones = document.getElementById("ultimasPublicaciones");
 
 /**
 * Funcion que inserta el elemento card depues del ultimo hijo de su contenedor
@@ -118,6 +257,7 @@ function renderizarCard(vehiculo) {
     card.classList.add(`col-12`, `col-md-6`, `col-lg-4`, `p-4`);
     card.innerHTML = modelarCard(vehiculo);
     contenedorCards.appendChild(card);
+    crearModalDetalle(vehiculo);
 }
 
 /**
@@ -129,6 +269,7 @@ function renderizarCardAlInicio(vehiculo) {
     card.classList.add(`col-12`, `col-md-6`, `col-lg-4`);
     card.innerHTML = modelarCard(vehiculo);
     contenedorCards.insertAdjacentElement("afterbegin", card);
+    crearModalDetalle(vehiculo);
 }
 
 /**
@@ -151,6 +292,7 @@ const ANIO_MIN = 1980, ANIO_MAXIMO = new Date().getFullYear();
 for (let i = ANIO_MIN; i <= ANIO_MAXIMO; i++) {
     listAnios.push(i);
 }
+
 
 /********************************** CARGA DE DATOS INICIAL HTML *******************************/
 
@@ -318,12 +460,13 @@ inputPrecioHasta.addEventListener("change", e => {
     filtrar();
 })
 
-
+let listaFiltrads = [];
 /**
  * Funcion que realiza carga en el html de acuerdo a los filtros parametros de filtros cargados por el usuario.
  */
 function filtrar() {
-    cargarHtml(tienda.filter(filtrarMarca).filter(filtrarAnioMin).filter(filtrarAnioMax).filter(filtrarPrecioMin).filter(filtrarPrecioMax));
+    listaFiltrads = tienda.filter(filtrarMarca).filter(filtrarAnioMin).filter(filtrarAnioMax).filter(filtrarPrecioMin).filter(filtrarPrecioMax)
+    cargarHtml(listaFiltrads);
 }
 
 const formFiltro = document.getElementById(`borrarFiltro`);
@@ -335,6 +478,7 @@ formFiltro.addEventListener(`click`, () => {
 
 /********************************** ACCIONES INICIAR SESION *******************************/
 let sesionIniciada = false;
+const recordarSesion = document.getElementById(`checkSesion`);
 const btnEntrar = document.getElementById(`botonEntrar`);
 const btnRegistrarse = document.getElementById(`botonRegistrarse`);
 const btnPublicar = document.getElementById(`botonPublicar`);
@@ -385,22 +529,44 @@ btnCerrarSesion.addEventListener(`click`, (e) => {
     gestionarBotonesCuenta();
 });
 
+function cargaDatosStorageSesion(key, form){
+    const usuario = localStorage.getItem(key) || false;
+    if(usuario){
+        console.log("if "+usuario);
+        form.email.value = usuario;
+        form.recordar.setAttribute(`checked`,``);
+    }else{
+        console.log("else "+usuario);
+        form.recordar.removeAttribute(`checked`);
+    }
+}
+
+cuenta.addEventListener('click', e => {
+    e.preventDefault();
+    cargaDatosStorageSesion("usuario", document.forms[`formSesion`]);
+})
 
 document.getElementById(`botonEntrar`).addEventListener('click', e => {
+    e.preventDefault();
     formularioSesion.addEventListener("submit", e => {
         e.preventDefault();
+        
         let formulario = document.forms[`formSesion`];
         let user, pass;
         user = formulario.email.value;
         pass = formulario.password.value;
-        console.log(user);
-        console.log(pass);
 
         let existe = usuariosRegistrados.find(usuario => usuario.registrado(user, pass));
 
         let spanError = document.getElementById(`credencialesIncorrectas`);
         if (existe) {
-            console.log("usuario encontrado, inicia sesion")
+            if(formulario.recordar.checked){
+                localStorage.setItem("usuario", user);
+                // sessionStorage.setItem("pass", pass);
+            }else{
+                localStorage.removeItem("usuario");
+                // sessionStorage.removeItem("pass");
+            }
             spanError.textContent = ``;
             cuenta.textContent = `${existe.nombre} ${existe.apellido}`
             sesionIniciada = true;
@@ -408,7 +574,6 @@ document.getElementById(`botonEntrar`).addEventListener('click', e => {
             gestionarBotonesCuenta();
             document.getElementById(`cerrarVentanaSesion`).click();
         } else {
-            console.log("no existe usuario no inicio sesion")
             spanError.textContent = `Usuario o contraseña incorrecto.`
             spanError.style.color = "red";
             sesionIniciada = false;
@@ -447,7 +612,20 @@ formularioPublicar.addEventListener(`submit`, e => {
     );
     tienda.unshift(nuevoVehiculo);
     renderizarCardAlInicio(nuevoVehiculo);
+    cargarHtmlUltimas(tienda);
     formularioPublicar.reset();
     document.getElementById("publicarVehiculo").click();
 });
+
+/********************************** ACCIONES VER DETALLE *******************************/
+const botones = document.getElementsByClassName('closeDetalle');
+
+for (let i = 0; i < botones.length; i++){
+    botones[i].addEventListener("click", e=>{
+        e.preventDefault();
+        document.getElementById(`publicarVehiculo`).click();
+    })
+}
+
+
 

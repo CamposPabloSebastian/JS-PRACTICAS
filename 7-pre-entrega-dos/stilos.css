@@ -9,8 +9,6 @@ html {
     margin-bottom: 5px;
 }
 
-
-
 body {
     background-color: rgb(245, 245, 245);
     font-family: 'Montserrat', sans-serif;
@@ -182,4 +180,16 @@ textarea {
 
 .mostrar {
     display: block;
+}
+
+.list-detalleProd{
+    list-style: none
+}
+
+.list-detalleProd span{
+    color: #6c757d;
+}
+
+.list-detalleProd li{
+    margin-top:15px
 }
