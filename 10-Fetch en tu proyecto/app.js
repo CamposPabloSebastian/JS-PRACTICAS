@@ -34,14 +34,22 @@ const usuariosRegistrados = [
     new Usuario("Pablo Sebastian", "Campos", "pablo.c1791@gmail.com", "1234"),
 ];
 
+const getDatos = async () => {
+    const resp = await fetch("./api.json");
+    return await resp.json();
 
-const iniciar = async () => {
-    try {
-        const resp = await fetch("./api.json");
-        const tienda = await resp.json();
-        
-        
-// tienda.reverse();
+    // console.log(dato)
+}
+
+const tienda = await getDatos();
+
+// const iniciar = async () => {
+//     try {
+//         const resp = await fetch("./api.json");
+//         const tienda = await resp.json();
+//         console.log(tienda)
+
+tienda.reverse();
 
 /**
  * Funcion que valida si la imagen cargada es valida
@@ -672,14 +680,46 @@ for (let i = 0; i < botones.length; i++) {
     })
 };
 
-        
-    } catch (error) {
-        console.log(error);
-    }
-    
-}
+const btnMicrofonoActivo = document.getElementById("activado");
+const btnMicrofonoNoActivo = document.getElementById("desactivado");
+const span = document.getElementById(`spanEscuchando`);
 
-iniciar()
+btnMicrofonoNoActivo.addEventListener(`click`, (e) => {
+    e.preventDefault();
+    escuchar(true);
+
+})
+
+function escuchar(estado) {
+    const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    if (estado) {
+        recognition.start();
+        recognition.onstart = function () {
+            span.textContent = "Escuchando...";
+            btnMicrofonoActivo.classList.remove(`d-none`);
+            btnMicrofonoActivo.style.color = `red`;
+            btnMicrofonoNoActivo.classList.add(`d-none`);
+        }
+
+        recognition.onspeechend = function () {
+            btnMicrofonoActivo.classList.add(`d-none`);
+            btnMicrofonoNoActivo.classList.remove(`d-none`);
+            span.textContent = "Dictado por voz";
+            recognition.stop();
+        }
+        recognition.onresult = function (e) {
+            console.log(e.result)
+            formulario.descripcion = e.result;
+        }
+    }
+}
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+// iniciar()
 
 
 let ID_VEHICULO = 1;
@@ -718,3 +758,5 @@ class Vehiculo {
 //     new Vehiculo("KAWASAKY", "Ninja 1000", "Racing", 1000, 2007, 6900, "A", "comentarios del vendedor", 26500, "./img/motos/ninja1000.jpg"),
 //     new Vehiculo("BMW", "R 1250 GS", "TraiL", 1250, 2014, 5600, "A", "comentarios del vendedor", 5500, "./img/motos/BMW-R-1250-GS.jpg"),
 // ];
+
+

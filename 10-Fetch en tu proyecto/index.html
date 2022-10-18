@@ -403,7 +403,13 @@
                                 <input type="file" class="form-control" id="inputGroupFile01" name="imagen" disabled />
                             </div>
                             <div class="col-12">
-                                <label for="inputModelo" class="form-label">Breve descripcion</label>
+                                <div class="row">
+                                    <label for="inputModelo" class="form-label col-8">Breve descripcion</label>
+                                    <span class="col-3" id="spanEscuchando">Dictado por voz</span>
+                                    <i class="bi bi-mic-mute-fill col-1" id="desactivado"></i>
+                                    <i class="bi bi-mic ri col-1 d-none" id="activado"></i>
+                                </div>
+
                                 <textarea class="form-control" aria-label="With textarea" rows="10" maxlength="300"
                                     placeholder="maximo 300 caracteres" name="descripcion"></textarea>
                             </div>
@@ -533,7 +539,7 @@
         });
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="app.js"></script>
+    <script src="app.js" type="module"></script>
 </body>
 
 </html>
