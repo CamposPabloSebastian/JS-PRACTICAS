@@ -722,7 +722,7 @@ function escuchar(estado) {
 // iniciar()
 
 
-let ID_VEHICULO = 1;
+let ID_VEHICULO = 13;
 
 class Vehiculo {
     constructor(marca, modelo, tipo, cilindrada, anio, kilometros, carnet, comentario, precio, img = "./img/card.webp") {
